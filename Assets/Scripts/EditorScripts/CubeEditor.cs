@@ -25,12 +25,13 @@ public class CubeEditor : MonoBehaviour
    /// </summary>
    private void SnapObjectToGrid()
    {
-      transform.position = _waypoint.GetPositionInGrid();
+      transform.position = _waypoint.GetPositionInGrid() * _waypoint.GetGridCellSize();
    }
 
    private void UpdateLabel()
    {
-      string coordinateLabel = _waypoint.GetPositionInGrid().x + ":" + _waypoint.GetPositionInGrid().z;
+      int _gridSize = _waypoint.GetGridCellSize();
+      string coordinateLabel = (transform.position.x / _gridSize).ToString() + ":" + (transform.position.z / _gridSize).ToString();
       _textMesh.text = coordinateLabel;
       gameObject.name = coordinateLabel;
    }

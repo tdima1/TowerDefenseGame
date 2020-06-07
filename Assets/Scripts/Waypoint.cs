@@ -14,9 +14,9 @@ public class Waypoint : MonoBehaviour
 
    public Vector3 GetPositionInGrid()
    {
-      float gridPosX = Mathf.RoundToInt(transform.position.x / _gridCellSize) * _gridCellSize;
-      float gridPosY = Mathf.RoundToInt(transform.position.y / _gridCellSize) * _gridCellSize;
-      float gridPosZ = Mathf.RoundToInt(transform.position.z / _gridCellSize) * _gridCellSize;
+      float gridPosX = Mathf.RoundToInt(transform.position.x / _gridCellSize);
+      float gridPosY = Mathf.RoundToInt(transform.position.y / _gridCellSize);
+      float gridPosZ = Mathf.RoundToInt(transform.position.z / _gridCellSize);
       return new Vector3(gridPosX, gridPosY, gridPosZ);
    }
 
