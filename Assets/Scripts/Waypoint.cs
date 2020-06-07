@@ -1,0 +1,28 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Waypoint : MonoBehaviour
+{
+   const int _gridCellSize = 11;
+   Vector3Int _positionInGrid;
+
+   public int GetGridCellSize()
+   {
+      return _gridCellSize;
+   }
+
+   public Vector3 GetPositionInGrid()
+   {
+      float gridPosX = Mathf.RoundToInt(transform.position.x / _gridCellSize) * _gridCellSize;
+      float gridPosY = Mathf.RoundToInt(transform.position.y / _gridCellSize) * _gridCellSize;
+      float gridPosZ = Mathf.RoundToInt(transform.position.z / _gridCellSize) * _gridCellSize;
+      return new Vector3(gridPosX, gridPosY, gridPosZ);
+   }
+
+   // Update is called once per frame
+   void Update()
+   {
+
+   }
+}
