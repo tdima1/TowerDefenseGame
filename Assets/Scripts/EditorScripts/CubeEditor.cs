@@ -16,14 +16,14 @@ public class CubeEditor : MonoBehaviour
 
    void Update()
    {
-      SnapObjectToGrid();
+      SnapBlockToGrid();
       UpdateLabel();
    }
 
    /// <summary>
    /// Makes the object snap to a grid, with the grid size defined by the object scale on all axis.
    /// </summary>
-   private void SnapObjectToGrid()
+   private void SnapBlockToGrid()
    {
       transform.position = _waypoint.GetPositionInGrid() * _waypoint.GetGridCellSize();
    }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-   [SerializeField] List<Waypoint> _path;
+   [SerializeField] List<Waypoint> _path = new List<Waypoint>();
 
    // Start is called before the first frame update
    void Start()
@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour
    {
       foreach(Waypoint waypoint in _path) {
          transform.position = waypoint.transform.position;
+         //waypoint.SetTopColor(Color.yellow);
          yield return new WaitForSeconds(1f);
       }
    }
