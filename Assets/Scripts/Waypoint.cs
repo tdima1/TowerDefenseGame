@@ -5,30 +5,48 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour
 {
    const int _gridCellSize = 11;
-   Vector3Int _positionInGrid;
+   public bool isVisited = false;
+   public Waypoint previousWaypoint;
+
+   // Update is called once per frame
+   void Update()
+   {
+
+   }
 
    public int GetGridCellSize()
    {
       return _gridCellSize;
    }
 
-   public Vector3 GetPositionInGrid()
+   /// <summary>
+   /// Gets the position of the block in the grid.
+   /// </summary>
+   /// <returns></returns>
+   public Vector2Int GetPositionInGrid()
    {
-      float gridPosX = Mathf.RoundToInt(transform.position.x / _gridCellSize);
-      float gridPosY = Mathf.RoundToInt(transform.position.y / _gridCellSize);
-      float gridPosZ = Mathf.RoundToInt(transform.position.z / _gridCellSize);
-      return new Vector3(gridPosX, gridPosY, gridPosZ);
+      int gridPosX = Mathf.RoundToInt(transform.position.x / _gridCellSize);
+      int gridPosZ = Mathf.RoundToInt(transform.position.z / _gridCellSize);
+      return new Vector2Int(gridPosX, gridPosZ);
    }
 
+   /// <summary>
+   /// Gets the Mesh renderer of the block and sets it's material.
+   /// </summary>
+   /// <param name="color"></param>
    public void SetTopColor(Color color)
    {
       MeshRenderer topMeshRenderer = transform.Find("Top").GetComponent<MeshRenderer>();
       topMeshRenderer.material.color = color;
    }
 
-   // Update is called once per frame
-   void Update()
+   public override bool Equals(object other)
    {
+      return this.GetPositionInGrid().Equals((other as Waypoint).GetPositionInGrid()); 
+   }
 
+   public override int GetHashCode()
+   {
+      return base.GetHashCode();
    }
 }

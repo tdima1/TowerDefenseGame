@@ -4,21 +4,12 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-   [SerializeField] List<Waypoint> _path = new List<Waypoint>();
+   [SerializeField] public List<Waypoint> _path = new List<Waypoint>();
 
    // Start is called before the first frame update
    void Start()
    {
-      StartCoroutine(GoThroughPath());
-   }
 
-   IEnumerator GoThroughPath()
-   {
-      foreach(Waypoint waypoint in _path) {
-         transform.position = waypoint.transform.position;
-         //waypoint.SetTopColor(Color.yellow);
-         yield return new WaitForSeconds(1f);
-      }
    }
 
    // Update is called once per frame
@@ -26,4 +17,15 @@ public class EnemyMovement : MonoBehaviour
    {
 
    }
+
+   public IEnumerator GoThroughPath()
+   {
+      foreach(Waypoint waypoint in _path) {
+         transform.position = waypoint.transform.position;
+         waypoint.SetTopColor(Color.blue);
+         //waypoint.SetTopColor(Color.yellow);
+         yield return new WaitForSeconds(1f);
+      }
+   }
+
 }

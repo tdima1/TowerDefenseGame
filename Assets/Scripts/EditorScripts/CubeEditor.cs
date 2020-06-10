@@ -25,7 +25,7 @@ public class CubeEditor : MonoBehaviour
    /// </summary>
    private void SnapBlockToGrid()
    {
-      transform.position = _waypoint.GetPositionInGrid() * _waypoint.GetGridCellSize();
+      transform.position = new Vector3Int(_waypoint.GetPositionInGrid().x * _waypoint.GetGridCellSize(), 0, _waypoint.GetPositionInGrid().y * _waypoint.GetGridCellSize());
    }
 
    private void UpdateLabel()

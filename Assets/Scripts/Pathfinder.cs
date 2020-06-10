@@ -1,10 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pathfinder : MonoBehaviour
 {
-   Dictionary<Vector3, Waypoint> _grid = new Dictionary<Vector3, Waypoint>();
+   Dictionary<Vector2Int, Waypoint> _grid = new Dictionary<Vector2Int, Waypoint>();
+   Vector2Int[] _directions = {
+      Vector2Int.up,
+      Vector2Int.right,
+      Vector2Int.down,
+      Vector2Int.left
+   };
+
+   [SerializeField] EnemyMovement _enemy; //todo make the enemy dependant on the world, and not the other way around. doesn't make sense this way, but i can't be asked now.
 
    [SerializeField] Waypoint _startWaypoint;
    [SerializeField] Waypoint _endWaypoint;
@@ -13,7 +22,15 @@ public class Pathfinder : MonoBehaviour
     {
       LoadGrid();
       ColorStartAndEndWaypoints();
-    }
+      _enemy._path = BreadthFirst(_startWaypoint, _endWaypoint);
+      StartCoroutine(_enemy.GoThroughPath()); //todo: revert the bloody list.
+   }
+
+   // Update is called once per frame
+   void Update()
+   {
+
+   }
 
    private void LoadGrid()
    {
@@ -35,9 +52,75 @@ public class Pathfinder : MonoBehaviour
       _endWaypoint.SetTopColor(Color.red);
    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   /// <summary>
+   /// Breadth first pathfinding algorithm.
+   /// </summary>
+   /// <param name="start"></param>
+   /// <param name="end"></param>
+   private List<Waypoint> BreadthFirst(Waypoint start, Waypoint end)
+   {
+      //Can't have start equal to end.
+      if (start.Equals(end)) {
+         return new List<Waypoint>();
+      }
+
+      Queue<Waypoint> queue = new Queue<Waypoint>();
+      queue.Enqueue(start);
+
+      while(queue.Count > 0) {
+         Waypoint currentWaypoint = queue.Dequeue();
+
+         if (currentWaypoint.Equals(end)) {
+            return Backtrack(start, end);
+         } else {
+            _grid[currentWaypoint.GetPositionInGrid()].isVisited = true;
+            ExploreNeighbours(currentWaypoint, queue);
+         }
+      }
+
+      //Path not found
+      return new List<Waypoint>();
+   }
+
+   /// <summary>
+   /// From the endpoint, goes through all the previous waypoints until it reaches start, recreating the path.
+   /// </summary>
+   /// <param name="start"></param>
+   /// <param name="end"></param>
+   private List<Waypoint> Backtrack(Waypoint start, Waypoint end)
+   {
+      Waypoint tracker = end;
+      List<Waypoint> path = new List<Waypoint>();
+
+      while(!tracker.Equals(start)) {
+         path.Add(tracker);
+         tracker = tracker.previousWaypoint;
+      }
+      path.Add(start);
+
+      return path;
+   }
+
+   /// <summary>
+   /// Checks if the current waypoint has any unvisited neighbours in the up, right, down, left directions.
+   /// </summary>
+   /// <param name="waypoint"></param>
+   /// <param name="queue"></param>
+   private void ExploreNeighbours(Waypoint waypoint, Queue<Waypoint> queue)
+   {
+      foreach (Vector2Int direction in _directions) {
+         Vector2Int neighbourKey = new Vector2Int(waypoint.GetPositionInGrid().x + direction.x, waypoint.GetPositionInGrid().y + direction.y);
+
+         if (_grid.ContainsKey(neighbourKey)) {
+            Waypoint currentNeighbourWaypoint = _grid[neighbourKey];
+
+            if (!currentNeighbourWaypoint.isVisited) {
+               currentNeighbourWaypoint.previousWaypoint = waypoint;
+               queue.Enqueue(currentNeighbourWaypoint);
+            }
+         }
+      }
+   }
+
+
 }
