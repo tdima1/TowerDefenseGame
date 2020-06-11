@@ -13,17 +13,10 @@ public class Pathfinder : MonoBehaviour
       Vector2Int.left
    };
 
-   [SerializeField] EnemyMovement _enemy; //todo make the enemy dependant on the world, and not the other way around. doesn't make sense this way, but i can't be asked now.
-
-   [SerializeField] Waypoint _startWaypoint;
-   [SerializeField] Waypoint _endWaypoint;
 
    void Start()
     {
       LoadGrid();
-      ColorStartAndEndWaypoints();
-      _enemy._path = BreadthFirst(_startWaypoint, _endWaypoint);
-      StartCoroutine(_enemy.GoThroughPath()); //todo: revert the bloody list.
    }
 
    // Update is called once per frame
@@ -46,10 +39,10 @@ public class Pathfinder : MonoBehaviour
       print(_grid.Count);
    }
 
-   private void ColorStartAndEndWaypoints()
+   public void ColorStartAndEndWaypoints(Waypoint start, Waypoint end)
    {
-      _startWaypoint.SetTopColor(Color.green);
-      _endWaypoint.SetTopColor(Color.red);
+      start.SetTopColor(Color.green);
+      end.SetTopColor(Color.red);
    }
 
    /// <summary>
@@ -57,7 +50,7 @@ public class Pathfinder : MonoBehaviour
    /// </summary>
    /// <param name="start"></param>
    /// <param name="end"></param>
-   private List<Waypoint> BreadthFirst(Waypoint start, Waypoint end)
+   public List<Waypoint> BreadthFirst(Waypoint start, Waypoint end)
    {
       //Can't have start equal to end.
       if (start.Equals(end)) {
