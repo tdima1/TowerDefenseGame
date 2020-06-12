@@ -5,18 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(Pathfinder))]
 public class EnemyMovement : MonoBehaviour
 {
-   [SerializeField] Pathfinder _pathfinder;
-   [SerializeField] Waypoint _startWaypoint;
-   [SerializeField] Waypoint _endWaypoint;
+   [SerializeField] private Pathfinder _pathfinder;
 
-   List<Waypoint> _path = new List<Waypoint>();
+   [SerializeField] Waypoint _startWaypoint ;
+   [SerializeField] Waypoint _endWaypoint;
 
    // Start is called before the first frame update
    void Start()
    {
-      _path = _pathfinder.BreadthFirst(_startWaypoint, _endWaypoint);
-      _pathfinder.ColorStartAndEndWaypoints(_startWaypoint, _endWaypoint);
-      StartCoroutine(GoThroughPath());
+      _pathfinder = FindObjectOfType<Pathfinder>();
+      StartCoroutine(GoThroughPath(_pathfinder.GetPath(_startWaypoint, _endWaypoint)));
    }
 
    // Update is called once per frame
@@ -25,13 +23,12 @@ public class EnemyMovement : MonoBehaviour
 
    }
 
-   public IEnumerator GoThroughPath()
+   public IEnumerator GoThroughPath(List<Waypoint> path)
    {
-      for(int i = _path.Count-1; i >=0; i--){
-         Waypoint waypoint = _path[i];
+      for(int i = path.Count-1; i >=0; i--){
+         Waypoint waypoint = path[i];
          transform.position = waypoint.transform.position;
          waypoint.SetTopColor(Color.blue);
-         //waypoint.SetTopColor(Color.yellow);
          yield return new WaitForSeconds(1f);
       }
    }

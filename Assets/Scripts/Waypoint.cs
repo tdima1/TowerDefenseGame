@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-   const int _gridCellSize = 11;
+   const int _gridCellSize = 10;
    public bool isVisited = false;
    public Waypoint previousWaypoint;
 

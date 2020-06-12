@@ -13,10 +13,11 @@ public class Pathfinder : MonoBehaviour
       Vector2Int.left
    };
 
+   public List<Waypoint> _path = new List<Waypoint>();
 
    void Start()
-    {
-      LoadGrid();
+   {
+      
    }
 
    // Update is called once per frame
@@ -31,8 +32,9 @@ public class Pathfinder : MonoBehaviour
       foreach (Waypoint waypoint in waypoints) {
          bool isOverlapping = _grid.ContainsKey(waypoint.GetPositionInGrid());
          if (isOverlapping) {
+            waypoint.isVisited = false;
             Debug.Log("Overlapping block " + waypoint);
-         } else { 
+         } else {
             _grid.Add(waypoint.GetPositionInGrid(), waypoint);
          }
       }
@@ -45,12 +47,20 @@ public class Pathfinder : MonoBehaviour
       end.SetTopColor(Color.red);
    }
 
+   public List<Waypoint> GetPath(Waypoint start, Waypoint end)
+   {
+      LoadGrid();
+      ColorStartAndEndWaypoints(start, end);
+      _path = BreadthFirstSearch(start, end);
+      return _path;
+   }
+
    /// <summary>
    /// Breadth first pathfinding algorithm.
    /// </summary>
    /// <param name="start"></param>
    /// <param name="end"></param>
-   public List<Waypoint> BreadthFirst(Waypoint start, Waypoint end)
+   public List<Waypoint> BreadthFirstSearch(Waypoint start, Waypoint end)
    {
       //Can't have start equal to end.
       if (start.Equals(end)) {
@@ -60,7 +70,7 @@ public class Pathfinder : MonoBehaviour
       Queue<Waypoint> queue = new Queue<Waypoint>();
       queue.Enqueue(start);
 
-      while(queue.Count > 0) {
+      while (queue.Count > 0) {
          Waypoint currentWaypoint = queue.Dequeue();
 
          if (currentWaypoint.Equals(end)) {

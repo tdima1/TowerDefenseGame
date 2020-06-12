@@ -44,17 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c604cc240c50c14409f5006ce0d56436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _path:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _pathfinder: {fileID: 0}
+  _startWaypoint: {fileID: 0}
+  _endWaypoint: {fileID: 0}
 --- !u!1 &6080408221616448129
 GameObject:
   m_ObjectHideFlags: 0
