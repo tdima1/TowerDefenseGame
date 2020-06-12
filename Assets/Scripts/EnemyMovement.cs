@@ -29,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
          Waypoint waypoint = path[i];
          transform.position = waypoint.transform.position;
          waypoint.SetTopColor(Color.blue);
-         yield return new WaitForSeconds(1f);
+         yield return new WaitForSeconds(1.5f);
       }
    }
 

@@ -14,10 +14,10 @@ public class Pathfinder : MonoBehaviour
    };
 
    public List<Waypoint> _path = new List<Waypoint>();
-
+   
    void Start()
    {
-      
+    
    }
 
    // Update is called once per frame
@@ -38,7 +38,6 @@ public class Pathfinder : MonoBehaviour
             _grid.Add(waypoint.GetPositionInGrid(), waypoint);
          }
       }
-      print(_grid.Count);
    }
 
    public void ColorStartAndEndWaypoints(Waypoint start, Waypoint end)
